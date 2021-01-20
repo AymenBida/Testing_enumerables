@@ -8,19 +8,19 @@ describe Enumerable do
   describe '#my_each' do
     context 'when given an array as an argument with a block' do
       it 'should return the same array' do
-        expect(arr.my_each { |a| a }).to match_array(%w[a b c])
+        expect(arr.my_each { |a| a }).to eq(%w[a b c])
       end
     end
 
     context 'when given a range as an argument with a block' do
-      it 'should return an array that matches the range numbers' do
-        expect(range.my_each { |a| a }).to match_array([1, 2, 3, 4, 5])
+      it 'should return the same range' do
+        expect(range.my_each { |a| a }).to eq(1..5)
       end
     end
 
     context 'when given a hash as an argument with a block' do
-      it 'should return an array that matches the hash' do
-        expect(hash.my_each { |a| a }).to match_array([[:a, '1'], [:b, '2']])
+      it 'should return the same hash' do
+        expect(hash.my_each { |a| a }).to eq({ a: '1', b: '2' })
       end
     end
 
@@ -34,19 +34,19 @@ describe Enumerable do
   describe '#my_each_with_index' do
     context 'when given an array as an argument with a block' do
       it 'should return the same array' do
-        expect(arr.my_each_with_index { |a, b| a == b }).to match_array(%w[a b c])
+        expect(arr.my_each_with_index { |a, b| a == b }).to eq(%w[a b c])
       end
     end
 
     context 'when given a range as an argument with a block' do
-      it 'should return an array that matches the range numbers' do
-        expect(range.my_each_with_index { |a, b| a == b }).to match_array([1, 2, 3, 4, 5])
+      it 'should return the same range' do
+        expect(range.my_each_with_index { |a| a }).to eq(1..5)
       end
     end
 
     context 'when given a hash as an argument with a block' do
-      it 'should return an array that matches the hash' do
-        expect(hash.my_each_with_index { |a, b| a == b }).to match_array([[:a, '1'], [:b, '2']])
+      it 'should return the same hash' do
+        expect(hash.my_each_with_index { |a| a }).to eq({ a: '1', b: '2' })
       end
     end
 
@@ -57,5 +57,21 @@ describe Enumerable do
     end
   end
 
-  
+  describe '#my_select' do
+    context 'when given an array as an argument with a block containing a condition' do
+      it 'should return a new array with elements that meet the condition given' do
+        expect(arr.my_select { |a| a == 'b' }).to eq(%w[b])
+      end
+
+      it 'should return an empty array when none of the elements meet the condition given' do
+        expect(arr.my_select { |a| a == 'x' }).to eq([])
+      end
+    end
+
+    context 'when given no block' do
+      it 'should return an enumerator' do
+        expect(arr.my_select).to be_an(Enumerator)
+      end
+    end
+  end
 end
