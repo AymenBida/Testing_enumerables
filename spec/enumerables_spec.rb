@@ -261,4 +261,38 @@ describe Enumerable do
       end
     end
   end
+
+  describe '#my_count' do
+    let(:array_with2) { [5, 1, 2, 5] }
+
+    context 'when given an array without an argument nor a block' do
+      it 'should return the number of elements in that array' do
+        expect(arr.my_count).to eq(3)
+      end
+    end
+
+    context 'when given an array with an argument' do
+      it 'should return the number of elements in the array that are equal to that argument' do
+        expect(arr.my_count('b')).to eq(1)
+      end
+
+      it 'should return 0 if no element in the array matches the argument' do
+        expect(arr.my_count('x')).to eq(0)
+      end
+
+      it 'should return 2 if the argument is present 2 times in the array' do
+        expect(array_with2.my_count(5)).to eq(2)
+      end
+    end
+
+    context 'when given an array and a block' do
+      it 'should count the number of elements that meets the condition in the block' do
+        expect(array_with2.my_count { |num| num > 3 }).to eq(2)
+      end
+
+      it 'should return 0 if none of the elements meets the condition in the block' do
+        expect(array_with2.my_count { |num| num > 6 }).to eq(0)
+      end
+    end
+  end
 end
