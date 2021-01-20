@@ -198,4 +198,67 @@ describe Enumerable do
       end
     end
   end
+
+  describe '#my_none?' do
+    let(:arrs) { [1, 2, 't'] }
+
+    context 'when given an array and a block containing a condition' do
+      it 'should return true if none of the elements meets the condition' do
+        expect(arr.my_none? { |a| a.is_a?(Integer) }).to be true
+      end
+
+      it 'should return false if at least one of the elements in the array meets the condition' do
+        expect(arrs.my_none? { |a| a.is_a?(String) }).to be false
+      end
+    end
+
+    context 'when given no block' do
+      let(:array_with_true) { [false, true, false, nil] }
+      let(:falsy_array) { [false, nil, false, nil] }
+
+      it 'should return true if none of the elements in the array is truthy' do
+        expect(falsy_array.my_none?).to be true
+      end
+
+      it 'should return false if at least one of the elements is truthy' do
+        expect(array_with_true.my_none?).to be false
+      end
+    end
+
+    context 'when given an argument without a block' do
+      let(:diff_array) { %w[a a b] }
+
+      it 'should return true if none of the elements is equal to the argument' do
+        expect(diff_array.my_none?('c')).to be true
+      end
+
+      it 'should return false if at least one of the elements is equal to the argument' do
+        expect(diff_array.my_none?('b')).to be false
+      end
+    end
+
+    context 'when given a class as an argument' do
+      let(:same_array) { [1, 2, 3, 'a'] }
+
+      it 'should return true if none of the elements is included in the class' do
+        expect(same_array.my_none?(Regexp)).to be true
+      end
+
+      it 'should return false if at least one of the elements is included in the class' do
+        expect(same_array.my_none?(String)).to be false
+      end
+    end
+
+    context 'when given a Regexp as an argument' do
+      let(:reg_array) { %w[abort people look] }
+
+      it 'should return true if none of the elements is included in the regexp' do
+        expect(reg_array.my_none?(/zed/)).to be true
+      end
+
+      it 'should return false if at least one of the elements is included in the reqexp' do
+        expect(reg_array.my_none?(/k/)).to be false
+      end
+    end
+  end
 end
