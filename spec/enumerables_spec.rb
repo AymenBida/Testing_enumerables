@@ -295,4 +295,28 @@ describe Enumerable do
       end
     end
   end
+
+  describe '#my_map' do
+    let(:array_with2) { [5, 1, 2, 5] }
+
+    context 'when given no block' do
+      it 'should return an enumerator' do
+        expect(arr.my_map).to be_an(Enumerator)
+      end
+    end
+
+    context 'when given a proc' do
+      my_proc = proc { |a| a = a + 2 }
+
+      it "should apply what's in the proc for each element in the array and return a new array with the new elements" do
+        expect(array_with2.my_map(my_proc)).to eq([7, 3, 4, 7])
+      end
+    end
+
+    context 'when given a block' do
+      it "should apply what's in the block for each element in the array and return a new array with the new elements" do
+        expect(array_with2.my_map { |a| a = a + 3 }).to eq([8, 4, 5, 8])
+      end
+    end
+  end
 end
