@@ -318,7 +318,7 @@ describe Enumerable do
       end
     end
   end
-  
+
   describe '#my_inject' do
     context 'when given a block' do
       it 'should reduce the array to one element using code from the block' do
