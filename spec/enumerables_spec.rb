@@ -6,7 +6,6 @@ describe Enumerable do
   let(:hash) { { a: '1', b: '2' } }
   let(:array_with2) { [5, 1, 2, 5] }
 
-
   describe '#my_each' do
     context 'when given an array as an argument with a block' do
       it 'should return the same array' do
@@ -306,7 +305,7 @@ describe Enumerable do
     end
 
     context 'when given a proc' do
-      my_proc = proc { |a| a = a + 2 }
+      my_proc = proc { |a| a + 2 }
 
       it "should apply what's in the proc for each element in the array and return a new array with the new elements" do
         expect(array_with2.my_map(my_proc)).to eq([7, 3, 4, 7])
@@ -314,15 +313,16 @@ describe Enumerable do
     end
 
     context 'when given a block' do
-      it "should apply what's in the block for each element in the array and return a new array with the new elements" do
-        expect(array_with2.my_map { |a| a = a + 3 }).to eq([8, 4, 5, 8])
+      it "should apply what's in the block for each element and return a new array with the new elements" do
+        expect(array_with2.my_map { |a| a + 3 }).to eq([8, 4, 5, 8])
       end
     end
   end
+  
   describe '#my_inject' do
     context 'when given a block' do
       it 'should reduce the array to one element using code from the block' do
-        expect(arr.my_inject{|acc, elem| acc + elem }).to eq('abc')
+        expect(arr.my_inject { |acc, elem| acc + elem }).to eq('abc')
       end
     end
 
@@ -334,13 +334,13 @@ describe Enumerable do
 
     context 'when given a number as the initial value and a symbol as an argument' do
       it 'should reduce the array to an element using the method from the symbol starting with the initial value' do
-        expect(array_with2.my_inject(5,:*)).to eq(250)
+        expect(array_with2.my_inject(5, :*)).to eq(250)
       end
     end
 
     context 'when given a number as the initial value and a block' do
       it 'should reduce the array to an element using the code from the block starting with the initial value' do
-        expect(arr.my_inject('p'){|acc, elem| acc + elem }).to eq('pabc')
+        expect(arr.my_inject('p') { |acc, elem| acc + elem }).to eq('pabc')
       end
     end
   end

@@ -165,7 +165,7 @@ module Enumerable
 end
 
 def multiply_els(array)
-  array.my_inject(:*)
+  array.my_inject(5, :*)
 end
 
 # rubocop:enable Metrics/CyclomaticComplexity
